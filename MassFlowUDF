@@ -1,0 +1,25 @@
+#include "udf.h"
+
+DEFINE_PROFILE(inlet_3D_profile, thread, position)
+{
+real x[3]; /*global 1D array with dimension (x,y,z) x[0]=x,x[1]=y;,x[2]=z;*/
+real y, h;
+face_t f;
+
+begin_f_loop(f, thread)
+{
+	F_CENTROID(x,f,thread); /* x is position, f is face, thread is type of face*/
+if (x[1]<0.00016)
+{
+F_PROFILE(f,thread,position)= 2.409*(10^-9);
+}
+
+else if (x[1]<0.002)
+{
+F_PROFILE(f,thread,position)= 0;
+}
+else
+F_PROFILE(f,thread,position)= 0.987*(10^-9);
+}
+end_f_loop{f,thread}
+}
